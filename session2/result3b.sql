@@ -1,2 +1,4 @@
-SELECT a.pid FROM Acts a
-WHERE 'a.mid is the same as the mid from the movie "Back to the Future"';
+SELECT a.pid as personID
+FROM Acts a
+INNER JOIN Movie m
+WHERE a.mid = m.mid;
