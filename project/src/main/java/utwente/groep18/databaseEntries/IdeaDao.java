@@ -6,11 +6,11 @@ import java.util.Map;
 public enum IdeaDao {
 	  instance;
 	  
-	  private Map<String, Idea> contentProvider = new HashMap<String, Idea>();
+	  private Map<Integer, Idea> contentProvider = new HashMap<Integer, Idea>();
 	  
 	  private IdeaDao() {
 	  }
-	  public Map<String, Idea> getModel(){
+	  public Map<Integer, Idea> getModel(){
 	    return contentProvider;
 	  }
 	}

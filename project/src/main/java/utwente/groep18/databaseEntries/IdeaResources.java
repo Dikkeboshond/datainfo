@@ -32,20 +32,54 @@ public class IdeaResources {
 	// Return the list of ideas to the user in the browser
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	public List<Idea> getTodosBrowser() {
-		List<Idea> todos = new ArrayList<Idea>();
-		todos.addAll(IdeaDao.instance.getModel().values());
-		return todos; 
+	public List<Idea> getIdeasBrowser() {
+		List<Idea> ideas = new ArrayList<Idea>();
+		ideas.addAll(IdeaDao.instance.getModel().values());
+		return ideas; 
 	}
+	
+	// Return the list of ideas to the user in the browser with limit
+		@GET
+		@Produces(MediaType.TEXT_XML)
+		public List<Idea> getIdeasBrowser(int limit) {
+			List<Idea> ideas = new ArrayList<Idea>();
+			int length = IdeaDao.instance.getModel().size();
+			if (length <= limit)
+				ideas.addAll(IdeaDao.instance.getModel().values());
+			else {
+				for(int i = 0; i < limit; i++) {
+					int id = (int) IdeaDao.instance.getModel().keySet().toArray()[i];
+					ideas.add(IdeaDao.instance.getModel().get(id));
+				}
+			}
+			return ideas; 
+		}
 
 	// Return the list of ideas for applications
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public List<Idea> getTodos() {
-		List<Idea> todos = new ArrayList<Idea>();
-		todos.addAll(IdeaDao.instance.getModel().values());
-		return todos; 
+	public List<Idea> getIdeas() {
+		List<Idea> ideas = new ArrayList<Idea>();
+		ideas.addAll(IdeaDao.instance.getModel().values());
+		return ideas;
 	}
+	
+	// Return the list of ideas for applications with limit
+		@GET
+		@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+		public List<Idea> getIdeas(int limit) {
+			List<Idea> ideas = new ArrayList<Idea>();
+			int length = ideas.size();
+			if (length <= limit)
+				ideas.addAll(IdeaDao.instance.getModel().values());
+			else {
+				for (int i = 0; i < limit; i++) {
+					int id = (int) IdeaDao.instance.getModel().keySet().toArray()[i];
+					ideas.add(IdeaDao.instance.getModel().get(id));
+				}
+			}
+			return ideas;
+		}
 
 
 	// retuns the number of ideas
@@ -62,26 +96,24 @@ public class IdeaResources {
 	@POST
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void newIdea(@FormParam("id") String id,
+	public void newIdea(@FormParam("id") Integer id,
 			@FormParam("summary") String summary,
 			@FormParam("description") String description,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		Idea idea = new Idea(id,summary);
-		if (description!=null){
-			idea.setDescription(description);
-		}
-		IdeaDao.instance.getModel().put(id, idea);
+		//TODO
+		//Idea idea = new Idea(id,summary);
+		//IdeaDao.instance.getModel().put(id, idea);
 
-		servletResponse.sendRedirect("../create_todo.html");
+		servletResponse.sendRedirect("../index.jsp");
 	}
 
 
-	// Defines that the next path parameter after todos is
-	// treated as a parameter and passed to the TodoResources
-	// Allows to type http://localhost:8080/de.vogella.jersey.todo/rest/todos/1
-	// 1 will be treaded as parameter todo and passed to TodoResource
+	// Defines that the next path parameter after ideas is
+	// treated as a parameter and passed to the IdeaResources
+	// Allows to type http://localhost:8080/ThinkTank/rest/ideas/1
+	// 1 will be treaded as parameter idea and passed to IdeaResource
 	@Path("{idea}")
-	public IdeaResource getTodo(@PathParam("idea") String id) {
+	public IdeaResource getIdea(@PathParam("idea") String id) {
 		return new IdeaResource(uriInfo, request, id);
 	}
 

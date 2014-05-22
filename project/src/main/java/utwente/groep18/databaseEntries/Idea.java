@@ -1,4 +1,4 @@
-package query.databaseEntries;
+package utwente.groep18.databaseEntries;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -11,13 +11,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.imageio.ImageIO;
-
-import org.joda.time.chrono.LimitChronology;
 
 import com.myproject.domain.*;
 import com.mysema.query.Tuple;
@@ -238,6 +234,7 @@ public class Idea extends Node {
 			com.myproject.domain.Idea idea = tuple.get(qIdea);
 			com.myproject.domain.Node node = tuple.get(qNode);
 			if (node.getCommentsEnabled()) {
+				//TODO
 				//ideas.add(new Idea(new Node(node), )))
 			}
 		}			
@@ -260,7 +257,7 @@ public class Idea extends Node {
 
 		SQLQuery query = new SQLQuery(DBConnection.getConnection(), DBConnection.dialect);
 		long nid = query.uniqueResult(SQLExpressions.nextval("node_nid_seq"));
-		aIdea.nodeId = (int) nid;
+		aIdea.setId((int) nid);
 
 		new SQLInsertClause(connection, dialect, idea)
 		.columns(idea.nid, idea.archived, idea.description, idea.picture, idea.upvotes, idea.downvotes)
